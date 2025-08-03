@@ -25,31 +25,19 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date?", (req, res) => {
-  let dateInput = req.params.date;
+  let dateString = req.params.date;
 
-  let date;
+  // If no date string is provided, use current date
+  let date = dateString ? new Date(dateString) : new Date();
 
-  // Check if no date was provided
-  if (!dateInput) {
-    date = new Date();
-  } else {
-    // If input is only digits, treat it as a UNIX timestamp
-    if (!isNaN(dateInput) && /^\d+$/.test(dateInput)) {
-      date = new Date(parseInt(dateInput));
-    } else {
-      date = new Date(dateInput);
-    }
-  }
-
-  // Check for invalid date
+  // Handle invalid date
   if (date.toString() === "Invalid Date") {
     return res.json({ error: "Invalid Date" });
   }
 
-  // Return correct JSON format
   res.json({
     unix: date.getTime(),
-    utc: date.toUTCString(),
+    utc: date.toUTCString()
   });
 });
 
