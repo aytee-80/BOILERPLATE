@@ -24,37 +24,29 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/", (req, res) => {
-  const now = new Date(); // Always fresh!
-  res.json({
-    unix: now.getTime(),
-    utc: now.toUTCString(),
-  });
-});
-
-app.get("/api/:date", (req, res) => {
+app.get("/api/:date?", (req, res) => {
   let dateInput = req.params.date;
-
   let date;
 
-  // Check if no date was provided
+  // If no date parameter is provided, use the current time
   if (!dateInput) {
     date = new Date();
   } else {
-    // If input is only digits, treat it as a UNIX timestamp
+    // If the input is a timestamp (all digits), parse it as a number
     if (!isNaN(dateInput) && /^\d+$/.test(dateInput)) {
       date = new Date(parseInt(dateInput));
     } else {
+      // Otherwise, assume it's a date string
       date = new Date(dateInput);
     }
   }
 
-  // Check for invalid date
+  // Check for an invalid date
   if (date.toString() === "Invalid Date") {
     return res.json({ error: "Invalid Date" });
   }
 
-  // Return correct JSON format
+  // Return the JSON object with unix and utc values
   res.json({
     unix: date.getTime(),
     utc: date.toUTCString(),
