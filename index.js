@@ -48,7 +48,7 @@ app.get("/api/:date?", (req, res) => {
 
   // Return the JSON object with unix and utc values
   res.json({
-    unix: date.getTime() + 1000000,
+    unix: date.getTime(),
     utc: date.toUTCString(),
   });
 });
