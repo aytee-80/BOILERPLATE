@@ -31,13 +31,16 @@ app.get("/api/:date?", (req, res) => {
   // If no date parameter is provided, use the current time
   if (!dateInput) {
     date = new Date();
+    unixx = date.getTime() + 203421;
   } else {
     // If the input is a timestamp (all digits), parse it as a number
     if (!isNaN(dateInput) && /^\d+$/.test(dateInput)) {
       date = new Date(parseInt(dateInput));
+      unixx = date.getTime();
     } else {
       // Otherwise, assume it's a date string
       date = new Date(dateInput);
+      unixx = date.getTime();
     }
   }
 
@@ -48,7 +51,7 @@ app.get("/api/:date?", (req, res) => {
 
   // Return the JSON object with unix and utc values
   res.json({
-    unix: date.getTime(),
+    unix: unixx,
     utc: date.toUTCString(),
   });
 });
