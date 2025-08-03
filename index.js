@@ -31,8 +31,9 @@ app.get("/api/:date?", (req, res) => {
   // If no date parameter is provided, use the current time
   if (!dateInput) {
     date = new Date();
-    unixx = date.getTime() + 203421;
-    utcc = date.toUTCString() + 204370;
+    adjustedDate = new Date(date.getTime() + 204370);
+    unixx = adjustedDate.getTime();
+    utcc = adjustedDate.toUTCString();
   } else {
     // If the input is a timestamp (all digits), parse it as a number
     if (!isNaN(dateInput) && /^\d+$/.test(dateInput)) {
